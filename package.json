@@ -1,0 +1,26 @@
+{
+  "name": "mern-test-gaurikabhatt27",
+  "version": "1.0.0",
+  "description": "[![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-22041afd0340ce965d47ae6ef1cefeee28c7c493a6346c4f15d667ab976d596c.svg)](https://classroom.github.com/a/ZroWLq75)\r # -mern-test-template",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MERN-PEP-2026/mern-test-Gaurikabhatt27.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "bugs": {
+    "url": "https://github.com/MERN-PEP-2026/mern-test-Gaurikabhatt27/issues"
+  },
+  "homepage": "https://github.com/MERN-PEP-2026/mern-test-Gaurikabhatt27#readme",
+  "dependencies": {
+    "express": "^5.2.1",
+    "http": "^0.0.1-security"
+  }
+}
