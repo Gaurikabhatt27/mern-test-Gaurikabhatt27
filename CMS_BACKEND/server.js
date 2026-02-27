@@ -1,10 +1,9 @@
 import express from "express"
-import http from "http";
 import cors from "cors";
 import dotenv from "dotenv";
-import connectDB from "./config/db";
-import authRoutes from "./routes/authRoutes";
-import createRoutes from "./routes/courseRoutes";
+import connectDB from "./config/db.js";
+import authRoutes from "./routes/authRoutes.js";
+import createRoutes from "./routes/courseRoutes.js";
 
 dotenv.config();
 
@@ -14,11 +13,11 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-app.use("./api/auth", authRoutes);
+app.use("/api/auth", authRoutes);
 app.use("/api/courses", createRoutes);
 
 const PORT = process.env.PORT || 8080;
 
-server.listen(PORT, () => {
+app.listen(PORT, () => {
     console.log(`Server Running on port ${PORT}`);
 });

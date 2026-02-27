@@ -20,6 +20,8 @@
   },
   "homepage": "https://github.com/MERN-PEP-2026/mern-test-Gaurikabhatt27#readme",
   "dependencies": {
+    "cors": "^2.8.6",
+    "dotenv": "^17.3.1",
     "express": "^5.2.1",
     "http": "^0.0.1-security",
     "jsonwebtoken": "^9.0.3",

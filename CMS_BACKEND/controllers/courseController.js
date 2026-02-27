@@ -1,45 +1,31 @@
-import Course from '../models/Course.js';
+import * as courseService from '../services/courseService.js';
 
 export const getCourses = async (req, res) => {
   try {
-    const { search } = req.query;
-    const query = search ? { courseName: { $regex: search, $options: 'i' } } : {};
-    
-    const courses = await Course.find(query).sort({ createdAt: -1 });
+    const courses = await courseService.getAllCourses(req.query.search);
     res.status(200).json(courses);
   } catch (error) {
-    res.status(500).json({ message: "Server Error: Could not fetch courses" });
+    res.status(500).json({ message: "Error fetching courses", error: error.message });
   }
 };
 
 export const createCourse = async (req, res) => {
-    try{
-        const { courseName, courseDescription, instructor } = req.body;
-    
-        const newCourse = new Course({
-        courseName,
-        courseDescription,
-        instructor
-        });
-
-        const savedCourse = await newCourse.save();
-        res.status(201).json(savedCourse);
-    }catch(error){
-        res.status(400).json({message: "Validation error: Please check your fields"});
-    }
-}
+  try {
+    const course = await courseService.createNewCourse(req.body);
+    res.status(201).json(course);
+  } catch (error) {
+    res.status(400).json({ message: "Error creating course", error: error.message });
+  }
+};
 
 export const deleteCourse = async (req, res) => {
   try {
-    const { id } = req.params;
-    const deletedCourse = await Course.findByIdAndDelete(id);
-
-    if (!deletedCourse) {
+    const result = await courseService.deleteCourseById(req.params.id);
+    if (!result) {
       return res.status(404).json({ message: "Course not found" });
     }
-
     res.status(200).json({ message: "Course deleted successfully" });
   } catch (error) {
-    res.status(500).json({ message: "Server Error: Could not delete course" });
+    res.status(500).json({ message: "Error deleting course", error: error.message });
   }
 };
