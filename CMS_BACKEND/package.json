@@ -21,6 +21,8 @@
   "homepage": "https://github.com/MERN-PEP-2026/mern-test-Gaurikabhatt27#readme",
   "dependencies": {
     "express": "^5.2.1",
-    "http": "^0.0.1-security"
+    "http": "^0.0.1-security",
+    "jsonwebtoken": "^9.0.3",
+    "mongoose": "^9.2.3"
   }
 }
