@@ -5,9 +5,15 @@ const API = axios.create({
 });
 
 API.interceptors.request.use((req) => {
-    const profile = localStorage.getItem('studentProfile');
-    if (profile) {
-        const { token } = JSON.parse(profile);
+    // Check for admin token first, then student token
+    const adminProfile = localStorage.getItem('adminProfile');
+    const studentProfile = localStorage.getItem('studentProfile');
+
+    if (adminProfile) {
+        const { token } = JSON.parse(adminProfile);
+        req.headers.Authorization = `Bearer ${token}`;
+    } else if (studentProfile) {
+        const { token } = JSON.parse(studentProfile);
         req.headers.Authorization = `Bearer ${token}`;
     }
     return req;

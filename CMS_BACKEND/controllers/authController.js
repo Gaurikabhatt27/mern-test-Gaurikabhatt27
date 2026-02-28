@@ -3,9 +3,9 @@ import * as authService from '../services/authService.js';
 export const register = async (req, res) => {
   try {
     const student = await authService.registerStudent(req.body);
-    res.status(201).json({ 
-      message: "Student registered successfully", 
-      studentId: student._id 
+    res.status(201).json({
+      message: "Student registered successfully",
+      studentId: student._id
     });
   } catch (error) {
     res.status(400).json({ message: error.message });
@@ -16,6 +16,16 @@ export const login = async (req, res) => {
   try {
     const { email, password } = req.body;
     const result = await authService.loginStudent(email, password);
+    res.status(200).json(result);
+  } catch (error) {
+    res.status(401).json({ message: error.message });
+  }
+};
+
+export const loginAdmin = async (req, res) => {
+  try {
+    const { email, password } = req.body;
+    const result = await authService.loginAdmin(email, password);
     res.status(200).json(result);
   } catch (error) {
     res.status(401).json({ message: error.message });
