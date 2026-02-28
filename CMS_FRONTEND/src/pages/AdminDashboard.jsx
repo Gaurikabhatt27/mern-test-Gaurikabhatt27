@@ -7,6 +7,15 @@ const AdminDashboard = () => {
     const [courses, setCourses] = useState([]);
     const [searchTerm, setSearchTerm] = useState('');
 
+    // Modal State
+    const [showModal, setShowModal] = useState(false);
+    const [formData, setFormData] = useState({
+        courseName: '',
+        courseDescription: '',
+        instructor: ''
+    });
+    const [error, setError] = useState('');
+
     const fetchCourses = async (query = '') => {
         try {
             const { data } = await API.get(`/courses?search=${query}`);
@@ -36,13 +45,92 @@ const AdminDashboard = () => {
         }
     };
 
-    const handleAddCourse = () => {
-        alert("Add Course functionality would open a modal here.");
-        // Implement full add course logic here connecting to API.post('/courses')
+    const handleAddCourse = async (e) => {
+        e.preventDefault();
+        setError('');
+
+        try {
+            const { data } = await API.post('/courses', formData);
+            // Append new course to list
+            setCourses([...courses, data.course || data]);
+            // Close modal and reset form
+            setShowModal(false);
+            setFormData({ courseName: '', courseDescription: '', instructor: '' });
+        } catch (err) {
+            setError(err.response?.data?.message || "Failed to create course");
+        }
     };
 
     return (
         <div className="dashboard-container">
+            {/* Modal Overlay */}
+            {showModal && (
+                <div className="modal-overlay">
+                    <div className="modal-content auth-box" style={{ maxWidth: '500px', margin: '0 20px' }}>
+                        <h2 style={{ marginBottom: '1.5rem', textAlign: 'center' }}>Add New Course</h2>
+                        {error && <div className="auth-error">{error}</div>}
+
+                        <form onSubmit={handleAddCourse}>
+                            <div className="input-group">
+                                <input
+                                    type="text"
+                                    placeholder="Course Name"
+                                    required
+                                    value={formData.courseName}
+                                    onChange={(e) => setFormData({ ...formData, courseName: e.target.value })}
+                                />
+                            </div>
+                            <div className="input-group">
+                                <textarea
+                                    placeholder="Course Description"
+                                    required
+                                    rows="4"
+                                    value={formData.courseDescription}
+                                    style={{
+                                        width: '100%',
+                                        padding: '1rem',
+                                        background: 'rgba(255, 255, 255, 0.05)',
+                                        border: '1px solid rgba(255, 255, 255, 0.1)',
+                                        borderRadius: '12px',
+                                        color: '#fff',
+                                        fontFamily: 'inherit',
+                                        resize: 'vertical'
+                                    }}
+                                    onChange={(e) => setFormData({ ...formData, courseDescription: e.target.value })}
+                                />
+                            </div>
+                            <div className="input-group">
+                                <input
+                                    type="text"
+                                    placeholder="Instructor Name"
+                                    required
+                                    value={formData.instructor}
+                                    onChange={(e) => setFormData({ ...formData, instructor: e.target.value })}
+                                />
+                            </div>
+
+                            <div style={{ display: 'flex', gap: '1rem', marginTop: '2rem' }}>
+                                <button
+                                    type="button"
+                                    onClick={() => setShowModal(false)}
+                                    className="auth-btn"
+                                    style={{ background: 'rgba(255,255,255,0.1)', flex: 1 }}
+                                >
+                                    Cancel
+                                </button>
+                                <button
+                                    type="submit"
+                                    className="auth-btn"
+                                    style={{ background: 'linear-gradient(135deg, #10b981 0%, #059669 100%)', flex: 1 }}
+                                >
+                                    Create Course
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            )}
+
             <div className="dashboard-content">
                 <header className="dashboard-header">
                     <h1>Admin Dashboard</h1>
@@ -64,7 +152,7 @@ const AdminDashboard = () => {
                     </form>
 
                     <button
-                        onClick={handleAddCourse}
+                        onClick={() => setShowModal(true)}
                         className="search-btn"
                         style={{ background: 'linear-gradient(135deg, #10b981 0%, #059669 100%)', gap: '8px' }}
                     >
