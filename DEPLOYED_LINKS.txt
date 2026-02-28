@@ -1,2 +1,2 @@
-Frontend(Vercel): https://course-management-system-4jac8fyar-gaurikabhatt27s-projects.vercel.app/
+Frontend(Vercel): https://course-management-system-hazel.vercel.app/
 Backend(Render): https://mern-test-gaurikabhatt27.onrender.com
