@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { register } from '../api/auth';
+import './Auth.css';
 
 const Register = () => {
     const [formData, setFormData] = useState({ name: '', email: '', password: '' });
@@ -19,39 +20,40 @@ const Register = () => {
     };
 
     return (
-        <div style={styles.container}>
-            <form onSubmit={handleSubmit} style={styles.form}>
-                <h2>Student Registration</h2>
-                {error && <p style={{ color: 'red' }}>{error}</p>}
-                
-                <input 
-                    type="text" placeholder="Full Name" required 
-                    onChange={(e) => setFormData({...formData, name: e.target.value})} 
-                    style={styles.input}
-                />
-                <input 
-                    type="email" placeholder="Email Address" required 
-                    onChange={(e) => setFormData({...formData, email: e.target.value})} 
-                    style={styles.input}
-                />
-                <input 
-                    type="password" placeholder="Password" required 
-                    onChange={(e) => setFormData({...formData, password: e.target.value})} 
-                    style={styles.input}
-                />
-                
-                <button type="submit" style={styles.button}>Register</button>
-                <p>Already have an account? <Link to="/login">Login here</Link></p>
-            </form>
+        <div className="auth-container">
+            <div className="auth-box">
+                <h2>Create Account</h2>
+                {error && <div className="auth-error">{error}</div>}
+
+                <form onSubmit={handleSubmit}>
+                    <div className="input-group">
+                        <input
+                            type="text" placeholder="Full Name" required
+                            onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                        />
+                    </div>
+                    <div className="input-group">
+                        <input
+                            type="email" placeholder="Email Address" required
+                            onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                        />
+                    </div>
+                    <div className="input-group">
+                        <input
+                            type="password" placeholder="Password" required
+                            onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+                        />
+                    </div>
+
+                    <button type="submit" className="auth-btn">Register</button>
+
+                    <div className="auth-links">
+                        <p>Already have an account? <Link to="/login">Sign in here</Link></p>
+                    </div>
+                </form>
+            </div>
         </div>
     );
-};
-
-const styles = {
-    container: { display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh', backgroundColor: '#f4f4f4' },
-    form: { padding: '2rem', background: '#fff', borderRadius: '8px', boxShadow: '0 4px 6px rgba(0,0,0,0.1)', width: '350px', textAlign: 'center' },
-    input: { width: '100%', padding: '10px', margin: '10px 0', borderRadius: '4px', border: '1px solid #ccc' },
-    button: { width: '100%', padding: '10px', background: '#007bff', color: '#fff', border: 'none', borderRadius: '4px', cursor: 'pointer' }
 };
 
 export default Register;
